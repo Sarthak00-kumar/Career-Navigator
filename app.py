@@ -27,7 +27,7 @@ st.set_page_config(
 )
 
 ROOT = Path(__file__).parent
-DATA_PATH = ROOT / "data" / "indian_tech_jobs_2026.csv"
+DATA_PATH = ROOT / "indian_tech_jobs_2026.csv"
 
 # ---------------------------------------------------------------------
 # Visual system: premium dark SaaS
