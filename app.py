@@ -211,13 +211,27 @@ def standardize_jobs(raw):
     return out
 
 def role_filter(jobs, role):
-    text = (jobs["target_role"] + " " + jobs["job_title"] + " " + jobs["search_text"]).str.lower()
-    if role == "Data Analyst":
-        mask = text.str.contains(r"data analyst|business intelligence|reporting analyst|analytics|data engineer|data intern|business analyst", regex=True, na=False)
-    else:
-        mask = text.str.contains(r"software|python|developer|web application|frontend|front end|engineering intern|react", regex=True, na=False)
-    return jobs[mask].copy() if mask.any() else jobs.copy()
+    text = (
+        jobs["job_title"].fillna("").astype(str) + " " +
+        jobs["role_category"].fillna("").astype(str) + " " +
+        jobs["skills_required"].fillna("").astype(str) + " " +
+        jobs["job_description"].fillna("").astype(str)
+    ).str.lower()
 
+    if role == "Data Analyst":
+        mask = text.str.contains(
+            r"data analyst|business intelligence|reporting analyst|analytics|data engineer|data intern|business analyst",
+            regex=True,
+            na=False
+        )
+    else:
+        mask = text.str.contains(
+            r"software|python|developer|web application|frontend|front end engineering intern|react",
+            regex=True,
+            na=False
+        )
+
+    return jobs[mask].copy() if mask.any() else jobs.copy()
 def match_jobs(profile, jobs, role):
     if jobs.empty:
         return pd.DataFrame()
