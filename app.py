@@ -212,10 +212,10 @@ def standardize_jobs(raw):
 
 def role_filter(jobs, role):
     text = (
+        jobs["target_role"].fillna("").astype(str) + " " +
         jobs["job_title"].fillna("").astype(str) + " " +
-        jobs["role_category"].fillna("").astype(str) + " " +
         jobs["skills_required"].fillna("").astype(str) + " " +
-        jobs["job_description"].fillna("").astype(str)
+        jobs["description_text"].fillna("").astype(str)
     ).str.lower()
 
     if role == "Data Analyst":
